@@ -15,7 +15,7 @@ steps:
     args:
       - builds
       - submit
-      - '--config=appointments/cloudbuild.yaml'
+      - '--config=appointment/cloudbuild.yaml'
       - 'appointments/'
 
   # Step 3: Trigger build for doctor
