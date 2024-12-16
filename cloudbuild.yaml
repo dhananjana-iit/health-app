@@ -16,7 +16,7 @@ steps:
       - builds
       - submit
       - '--config=appointment/cloudbuild.yaml'
-      - 'appointments/'
+      - 'appointment/'
 
   # Step 3: Trigger build for doctor
   - name: 'gcr.io/cloud-builders/gcloud'
