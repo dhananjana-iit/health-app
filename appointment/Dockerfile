@@ -5,7 +5,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy the packaged jar file into the container
-COPY target/appointment-scheduling-service-0.0.1-SNAPSHOT.jar appointment-scheduling-service.jar
+COPY target/appointment-0.0.1-SNAPSHOT.jar appointment-scheduling-service.jar
 
 # Expose the port the app runs on
 EXPOSE 8080
