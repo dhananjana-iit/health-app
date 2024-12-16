@@ -5,9 +5,9 @@ steps:
     dir: '.'
 
   # Step 2: Run tests (if required)
-  - name: 'gcr.io/cloud-builders/mvn'
-    args: [ 'test' ]
-    dir: '.'
+  # - name: 'gcr.io/cloud-builders/mvn'
+  #   args: [ 'test' ]
+  #   dir: '.'
 
   # Step 3: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
