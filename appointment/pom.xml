@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.iit.cc</groupId>
-    <artifactId>appointments</artifactId>
+    <artifactId>appointment</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>appointments</name>
     <description>appointments</description>

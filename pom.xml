@@ -26,7 +26,7 @@
     <modules>
         <module>auth-service</module>
         <module>patient-health-record</module>
-        <module>appointments</module>
+        <module>appointment</module>
         <module>notification-service</module>
         <module>doctor</module>
     </modules>

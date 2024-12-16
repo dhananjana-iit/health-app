@@ -1,0 +1,44 @@
+steps:
+  # Step 1: Trigger build for patient-health-record
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - builds
+      - submit
+      - '--config=patient-health-record/cloudbuild.yaml'
+      - 'patient-health-record/'
+
+  # Step 2: Trigger build for appointments
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - builds
+      - submit
+      - '--config=appointments/cloudbuild.yaml'
+      - 'appointments/'
+
+  # Step 3: Trigger build for doctor
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - builds
+      - submit
+      - '--config=doctor/cloudbuild.yaml'
+      - 'doctor/'
+
+  # Step 4: Trigger build for notification-service
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - builds
+      - submit
+      - '--config=notification-service/cloudbuild.yaml'
+      - 'notification-service/'
+
+  # Step 5: Trigger build for notification-service
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - builds
+      - submit
+      - '--config=auth-service/cloudbuild.yaml'
+      - 'auth-service/'
+
+
+
+
