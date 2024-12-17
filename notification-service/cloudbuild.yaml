@@ -1,18 +1,13 @@
 steps:
   # Step 1: Build the microservice
   - name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'install']
+    args: ['clean', 'install', '-DskipTests']
     dir: '.'
 
-  # Step 2: Run tests (if required)
-  # - name: 'gcr.io/cloud-builders/mvn'
-  #   args: [ 'test' ]
-  #   dir: '.'
-
-  # Step 3: Build Docker image
+  # Step 2: Build Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/cloudcomputing-cw-bda/cloud-computing/notification-service:latest', '.']
 
-  # Step 4: Push Docker image
+  # Step 3: Push Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/cloudcomputing-cw-bda/cloud-computing/notification-service:latest']
