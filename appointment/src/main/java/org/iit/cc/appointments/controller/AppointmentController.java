@@ -82,5 +82,17 @@ public class AppointmentController {
         service.cancelAppointment(id);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Simple health check endpoint.
+     * Used to verify the service is up and running.
+     *
+     * @return ResponseEntity with OK status
+     */
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Appointment Service is UP");
+    }
+
 }
 

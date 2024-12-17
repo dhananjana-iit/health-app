@@ -46,4 +46,9 @@ public class PatientController {
         service.deletePatient(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Patient Service is UP");
+    }
 }
