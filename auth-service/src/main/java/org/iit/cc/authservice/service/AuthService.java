@@ -15,7 +15,7 @@ public class AuthService {
     private final long expiration = 3600000; // 1 hour
 
     public boolean validateCredentials(String username, String password) {
-        // TODO: Replace with actual user validation logic (e.g., DB lookup)
+        // TODO: Replace with actual user validation logic (e.g., DB lookup, any other validation)
         return "user".equals(username) && "password".equals(password);
     }
 

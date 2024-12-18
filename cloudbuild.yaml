@@ -2,46 +2,48 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-  # Step 1: Trigger build for patient-health-record
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Step 0: Detect changes
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
     args:
-      - builds
-      - submit
-      - '--config=patient-health-record/cloudbuild.yaml'
-      - 'patient-health-record/'
+      - '-c'
+      - |
+        git fetch origin
+        CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+        > affected_modules.txt
+        if echo "$CHANGED_FILES" | grep -q '^patient-health-record/'; then
+          echo "patient-health-record" >> affected_modules.txt
+        fi
+        if echo "$CHANGED_FILES" | grep -q '^appointment/'; then
+          echo "appointment" >> affected_modules.txt
+        fi
+        if echo "$CHANGED_FILES" | grep -q '^doctor/'; then
+          echo "doctor" >> affected_modules.txt
+        fi
+        if echo "$CHANGED_FILES" | grep -q '^notification-service/'; then
+          echo "notification-service" >> affected_modules.txt
+        fi
+        if echo "$CHANGED_FILES" | grep -q '^auth-service/'; then
+          echo "auth-service" >> affected_modules.txt
+        fi
 
-  # Step 2: Trigger build for appointments
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Step 1: Validate affected modules
+  - name: 'gcr.io/cloud-builders/bash'
+    entrypoint: 'bash'
     args:
-      - builds
-      - submit
-      - '--config=appointment/cloudbuild.yaml'
-      - 'appointment/'
+      - '-c'
+      - |
+        if [ ! -s affected_modules.txt ]; then
+          echo "No modules to build. Exiting."
+          exit 0
+        fi
 
-  # Step 3: Trigger build for doctor
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Step 2: Loop through affected modules and build them
+  - name: 'gcr.io/cloud-builders/bash'
+    entrypoint: 'bash'
     args:
-      - builds
-      - submit
-      - '--config=doctor/cloudbuild.yaml'
-      - 'doctor/'
-
-  # Step 4: Trigger build for notification-service
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - builds
-      - submit
-      - '--config=notification-service/cloudbuild.yaml'
-      - 'notification-service/'
-
-  # Step 5: Trigger build for notification-service
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - builds
-      - submit
-      - '--config=auth-service/cloudbuild.yaml'
-      - 'auth-service/'
-
-
-
-
+      - '-c'
+      - |
+        while read module; do
+          gcloud builds submit --config="$module/cloudbuild.yaml" "$module/"
+        done < affected_modules.txt
