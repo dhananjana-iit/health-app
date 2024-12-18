@@ -7,43 +7,40 @@ steps:
     entrypoint: 'bash'
     args:
       - '-c'
-      - |
-        git fetch origin
-        CHANGED_FILES=$(git diff --name-only origin/main HEAD)
-        > affected_modules.txt
-        if echo "$CHANGED_FILES" | grep -q '^patient-health-record/'; then
-          echo "patient-health-record" >> affected_modules.txt
-        fi
-        if echo "$CHANGED_FILES" | grep -q '^appointment/'; then
-          echo "appointment" >> affected_modules.txt
-        fi
-        if echo "$CHANGED_FILES" | grep -q '^doctor/'; then
-          echo "doctor" >> affected_modules.txt
-        fi
-        if echo "$CHANGED_FILES" | grep -q '^notification-service/'; then
-          echo "notification-service" >> affected_modules.txt
-        fi
-        if echo "$CHANGED_FILES" | grep -q '^auth-service/'; then
-          echo "auth-service" >> affected_modules.txt
-        fi
+      - "git fetch origin; \
+           CHANGED_FILES=$(git diff --name-only origin/main HEAD); \
+           > affected_modules.txt; \
+           if echo \"$CHANGED_FILES\" | grep -q '^patient-health-record/'; then \
+             echo \"patient-health-record\" >> affected_modules.txt; \
+           fi; \
+           if echo \"$CHANGED_FILES\" | grep -q '^appointment/'; then \
+             echo \"appointment\" >> affected_modules.txt; \
+           fi; \
+           if echo \"$CHANGED_FILES\" | grep -q '^doctor/'; then \
+             echo \"doctor\" >> affected_modules.txt; \
+           fi; \
+           if echo \"$CHANGED_FILES\" | grep -q '^notification-service/'; then \
+             echo \"notification-service\" >> affected_modules.txt; \
+           fi; \
+           if echo \"$CHANGED_FILES\" | grep -q '^auth-service/'; then \
+             echo \"auth-service\" >> affected_modules.txt; \
+           fi"
 
   # Step 1: Validate affected modules
   - name: 'gcr.io/cloud-builders/bash'
     entrypoint: 'bash'
     args:
       - '-c'
-      - |
-        if [ ! -s affected_modules.txt ]; then
-          echo "No modules to build. Exiting."
-          exit 0
-        fi
+      - " if [ ! -s affected_modules.txt ]; then
+            echo \"No modules to build. Exiting.\"
+            exit 0
+          fi"
 
   # Step 2: Loop through affected modules and build them
   - name: 'gcr.io/cloud-builders/bash'
     entrypoint: 'bash'
     args:
       - '-c'
-      - |
-        while read module; do
-          gcloud builds submit --config="$module/cloudbuild.yaml" "$module/"
-        done < affected_modules.txt
+      - "while read module; do
+          gcloud builds submit --config=\"$module/cloudbuild.yaml\" \"$module/\"
+        done < affected_modules.txt"
