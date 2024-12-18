@@ -17,6 +17,7 @@ steps:
 #     args:
 #       - 'set'
 #       - 'image'
+#       - '--namespace=health-app'
 #       - 'deployment/auth-service'
 #       - 'auth-service=us-central1-docker.pkg.dev/cloudcomputing-cw-bda/cloud-computing/auth-service:latest'
 #     env:

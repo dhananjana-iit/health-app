@@ -17,6 +17,7 @@ steps:
     args:
       - 'set'
       - 'image'
+      - '--namespace=health-app'
       - 'deployment/appointment'
       - 'appointment=us-central1-docker.pkg.dev/cloudcomputing-cw-bda/cloud-computing/appointment:latest'
     env:
