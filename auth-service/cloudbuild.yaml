@@ -11,3 +11,15 @@ steps:
   # Step 3: Push Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/cloudcomputing-cw-bda/cloud-computing/auth-service:latest']
+
+  # Step 4: Deploy to GKE
+#   - name: 'gcr.io/cloud-builders/kubectl'
+#     args:
+#       - 'set'
+#       - 'image'
+#       - 'deployment/auth-service'
+#       - 'auth-service=us-central1-docker.pkg.dev/cloudcomputing-cw-bda/cloud-computing/auth-service:latest'
+#     env:
+#       - 'CLOUDSDK_COMPUTE_REGION=us-east1-b'
+#       - 'CLOUDSDK_CONTAINER_CLUSTER=cloud-computing-cw'
+#     dir: '.'
